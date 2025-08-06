@@ -80,9 +80,9 @@ class SenhaForm(UserChangeForm):
         return password2
     
     def save(self, commit=True):
-        profissional = super().save(commit=False)
-        profissional.user.set_password(self.cleaned_data['password1'])
-        profissional.user.save()
+        user = super().save(commit=False)
+        user.set_password(self.cleaned_data['password1'])
+        user.save()
         if commit:
-            profissional.save()
-        return profissional
+            user.save()
+        return user

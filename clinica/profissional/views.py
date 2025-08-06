@@ -83,14 +83,14 @@ def editSenha(request, username):
             if request.method == 'GET':
                 profissionais = User.objects.all()
                 profissional= Profissional.objects.filter(user__username=username).first()
-                formSenha = SenhaForm(instance=profissional)
+                formSenha = SenhaForm(instance=profissional.user)
 
                 return render(request, 'profissional/senhaForm.html', {'formSenha' : formSenha ,'profissionais': profissionais})
                 
             elif request.method == 'POST':
                 profissionais = User.objects.all()
                 profissional = Profissional.objects.get(user__username=username)
-                formSenha = SenhaForm(request.POST, instance=profissional)
+                formSenha = SenhaForm(request.POST, instance=profissional.user)
 
                 if formSenha.is_valid():
                     formSenha.save()
