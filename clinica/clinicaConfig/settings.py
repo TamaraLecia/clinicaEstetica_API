@@ -43,6 +43,9 @@ INSTALLED_APPS = [
     # Django rest framework
     'rest_framework',
 
+    #para documentar a api
+    'drf_yasg',
+
     'clinicaEstetica',
     #'administrador',
     'administrador.apps.AdministradorConfig',

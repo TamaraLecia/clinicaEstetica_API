@@ -26,8 +26,6 @@ class AlterarSenhaSerializer(serializers.ModelSerializer):
             return usuario
 
 
-
-
 class VerProfissionalSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profissional
