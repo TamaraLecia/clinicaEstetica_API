@@ -1,25 +1,14 @@
 from .import views
 from django.urls import path
 
-
 urlpatterns = [
-    path("index/", views.index, name="indexAdm"),
-    path("add/", views.add_administrador, name="add"),
-    path("editarAdministrador/<str:username>/", views.editarDadosAdmin, name="editarAdministrador"),
-    path("deletarAdministrador/<str:username>/", views.deletarContaAdmin, name="deletarAdministrador"),
-    path('verAdministrador/', views.verAdministrador, name='verAdministrador'),
-    path('alterarSenha/<str:username>/', views.editSenha, name="alterarSenha"),
-    path("logout/", views.realizarLogout, name="logout"),
-    path('verServico/', views.mostrarServicos, name='verServico'),
-    path('verProfissional/', views.verProfissional, name='verProfissional'),
-    path('verCliente/', views.verCliente, name='verCliente'),
-    path("deletarServico/<int:id>/", views.deletarServico, name="deletarServico"),
-    path("alterarServico/<int:id>/", views.alterarServico, name="alterarServico"),
-    path("redirecionaServico/", views.redirecionarParaServico, name="redirecionaServico"),
-    path("redirecionaPlano/", views.redirecionaPlano, name="redirecionaPlano"),
-    path("alterarCategoria/<int:id>/", views.alterarCategoria, name="alterarCategoria"),
-    path("deletarCategoria/<int:id>/", views.deletarCategoria, name="deletarCategoria"),
-    path("verPlano/", views.verPlano, name="verPlano"),
-    path("deletarProfissional/<str:username>/", views.deletarProfissional, name="deletarProfissional"),
-    
+    path('', views.AdministradorAPIView.as_view(), name="AdministradorApiView"),
+    path('administradorDetail/<int:id>/', views.AdministradorDetail.as_view(), name="AdministradorDetail"),
+    path('alterarSenha/', views.AlterarSenha.as_view(), name="AlterarSenha"),
+    path('verProfissional/', views.VerProfissional.as_view(), name="VerProfissional"),
+    path('mostrarServico/', views.MostrarServico.as_view(), name="MostrarServico"),
+    path('ServicoDetail/<int:id>/', views.ServicoDetail.as_view(), name="ServicoDetail"),
+    path('alterarCategoria/', views.AlterarCategoria.as_view(), name="AlterarCategoria"),
+    path('verCliente/', views.VerCliente.as_view(), name="VerCliente"),
+    path('VerPlano/', views.VerPlano.as_view(), name="VerPlano"),
 ]

@@ -10,13 +10,13 @@ from rest_framework.response import Response
 from rest_framework import status, permissions
 
 # importações do oauth2 - oauth-toolkit
-from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, TokenHasScope
+# from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, TokenHasScope
 # Create your views here.
 
 #usando APIView do rest_framework
 class AdministradorAPIView(APIView):
     # forma de realizar a authenticação com oauth-toolkit
-    permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
+    # permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
 
     #ver todos os administradores
     def get(self, request):
@@ -41,7 +41,7 @@ class AdministradorAPIView(APIView):
             return Response(serializer.data)
 
 class AdministradorDetail(APIView):
-    permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
+    # permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
     
     def get(self, request, id):
         administrador = get_object_or_404(Administrador.objects.all(), id=id)
@@ -63,7 +63,7 @@ class AdministradorDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class AlterarSenha(APIView):
-    permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
+    # permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
 
     def put(self, request):
         serializer = AlterarSenhaSerializer(data=request.data)
@@ -72,7 +72,7 @@ class AlterarSenha(APIView):
         return Response(serializer.errors, status=400)
 
 class VerProfissional(APIView):
-    permission_classes = [permissions.IsAuthenticated, TokenHasScope]
+    # permission_classes = [permissions.IsAuthenticated, TokenHasScope]
 
     def get(self, request):
         profissionais = Profissional
@@ -80,7 +80,7 @@ class VerProfissional(APIView):
         return Response(serializer.data)
 
 class MostrarServico(APIView):
-    permission_classes = [permissions.IsAuthenticated, TokenHasScope]
+    # permission_classes = [permissions.IsAuthenticated, TokenHasScope]
 
     def get(self, request):
         servicos = Servico
@@ -88,7 +88,7 @@ class MostrarServico(APIView):
         return Response(serializer.data)
     
 class ServicoDetail(APIView):
-    permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
+    # permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
 
     def put(self, request, id):
         servico = get_object_or_404(Servico.objects.all(), id=id)
@@ -103,7 +103,7 @@ class ServicoDetail(APIView):
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class AlterarCategoria(APIView):
-    permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
+    # permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
 
     def put(self, request, id):
         categoria = get_object_or_404(TipoServico.objects.all(), id=id)
@@ -113,7 +113,7 @@ class AlterarCategoria(APIView):
             return Response(status=status.HTTP_204_NO_CONTENT)
 
 class VerCliente(APIView):
-    permission_classes = [permissions.IsAuthenticated, TokenHasScope]
+    # permission_classes = [permissions.IsAuthenticated, TokenHasScope]
 
     def get(self, request):
         clientes = Cliente
@@ -121,7 +121,7 @@ class VerCliente(APIView):
         return Response(serializer.data)
 
 class VerPlano(APIView):
-    permission_classes = [permissions.IsAuthenticated, TokenHasScope]
+    # permission_classes = [permissions.IsAuthenticated, TokenHasScope]
 
     def get(self, request):
         planos = Plano
