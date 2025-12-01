@@ -5,17 +5,24 @@ from servico.forms import EditCategoriaForm, EditServicoForm, ServicoCategoriaFo
 from django.urls import reverse
 from django.contrib.auth.decorators import permission_required
 
-def index(request):
-    servicos = Servico.objects.all()
+#IMPORTAÇÕES DE API
+from rest_framework.views import APIView
+from rest_framework.authentication import BasicAuthentication, SessionAuthentication, TokenAuthentication
+from rest_framework.permissions import IsAuthenticated
+from .serializers import ServicoSerializer, CategoriaSerializer
+from rest_framework.response import Response
+from rest_framework import status, viewsets
+from rest_framework.parsers import MultiPartParser, FormParser
 
     # categorias = Servico.objects.values_list('categoria', flat=True).distinct()
     # servicoPorCategoria = {}
 
-    # for categoria in categorias:
-    #     servico = Servico.objects.filter(categoria=categoria).first()
-    #     if servico:
-    #         servicoPorCategoria[categoria] = servico
-    return render(request, 'servico/indexServico.html', {'servicos': servicos})
+
+class ServicoAPIView(APIView):
+    # faz com que a view aceite as requisições dos arquivos
+    parser_classes = [MultiPartParser, FormParser]
+
+    # permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
 
 #Adicionar Categoria de serviço
 @permission_required('servico.add_servico', raise_exception=True)
