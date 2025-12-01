@@ -1,4 +1,11 @@
 #importações utilizadas de Api
+from pyexpat.errors import messages
+from administrador.models import Administrador
+from django.contrib.auth.models import Group
+from django.shortcuts import get_object_or_404
+from django.contrib.auth.models import User
+
+
 from rest_framework.views import APIView
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
@@ -33,12 +40,18 @@ class AdministradorAPIView(APIView):
             administrador.save()
 
             grupo, _ = Group.objects.get_or_create(name='Administradores')
-            administrador.groups.add(grupo)
-            print("Administrador promovido a administrador:", administrador.nome)
+            administrador.user.groups.add(grupo)
 
-            tornarAdmin(request, administrador.username)
-            print("Administrador salvo:", administrador.id)
-            return Response(serializer.data)
+            # chama a função tornar ADMIN
+            msg = tornarAdmin(administrador.user.username)
+
+            # retorna o objeto criado e a mensagem que está na função tornar ADMIN
+            return Response({
+                "administrador": serializer.data,
+                **msg
+            }, status=status.HTTP_201_CREATED)
+
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class AdministradorDetail(APIView):
     # permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
@@ -128,15 +141,13 @@ class VerPlano(APIView):
         serializer = VerPlanoSerializer(planos, many=True)
         return Response(serializer.data)
     
-def tornarAdmin(request, userName): 
-    administrador = get_object_or_404(User, username = userName) 
-    if administrador.is_superuser: 
-        messages.error(request, "Você já é um Administrador") 
-        
-    else: 
-        administrador.is_superuser = True #Transforma o administrador em superUsuário 
-        administrador.is_staff = True #Permite que o usuário acesse o painel de administração do django 
-        administrador.save() 
-        messages.success(request, "Usuário promovido a administrador") 
-    
-    return redirect('indexAdm')
+def tornarAdmin(userName):
+    administrador = get_object_or_404(User, username=userName)
+    if administrador.is_superuser:
+        return {"detail": "Usuário já é um Administrador"}
+    else:
+        administrador.is_superuser = True
+        administrador.is_staff = True
+        administrador.save()
+        # retorna uma mensagem informando que o usuário foi promovido
+        return {"detail": f"Usuário {userName} promovido a administrador"}
