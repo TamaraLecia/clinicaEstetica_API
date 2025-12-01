@@ -1,3 +1,4 @@
+from clinicaEstetica.serializer import UserSerializer
 from rest_framework import serializers
 
 from django.contrib.auth.models import User
@@ -7,11 +8,25 @@ from servico.models import Servico, TipoServico
 from cliente.models import Cliente
 from plano.models import Plano
 
+# class AdministradorSerializer(serializers.ModelSerializer):
+#     user = User
+#     class Meta:
+#         model = Administrador
+#         fields = "__all__"
+
 class AdministradorSerializer(serializers.ModelSerializer):
+    user = UserSerializer()  # aceita dados aninhados
+
     class Meta:
         model = Administrador
-        fields = "__all__"
+        fields = "__all__"  # ou "__all__" se preferir
 
+    def create(self, validated_data):
+        user_data = validated_data.pop('user')
+        user = User.objects.create_user(**user_data)
+        administrador = Administrador.objects.create(user=user, **validated_data)
+        return administrador
+    
 class AlterarSenhaSerializer(serializers.ModelSerializer):
     class Meta:
         username = serializers.CharField()
