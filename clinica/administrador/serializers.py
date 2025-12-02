@@ -23,8 +23,15 @@ class AdministradorSerializer(serializers.ModelSerializer):
 
     def create(self, validated_data):
         user_data = validated_data.pop('user')
-        user = User.objects.create_user(**user_data)
-        administrador = Administrador.objects.create(user=user, **validated_data)
+        user = User.objects.create_user(
+            username=user_data['username'],
+            email=user_data['email'],
+            password=user_data['password']
+        )
+        administrador = Administrador.objects.create(
+            user=user,
+            nome=validated_data.get('nome', '')
+        )
         return administrador
     
 class AlterarSenhaSerializer(serializers.ModelSerializer):

@@ -46,6 +46,9 @@ INSTALLED_APPS = [
     #para documentar a api
     'drf_yasg',
 
+    # o corsheaders permite a comunicação com domínios diferentes
+    'corsheaders',
+
     'clinicaEstetica',
     #'administrador',
     'administrador.apps.AdministradorConfig',
@@ -58,6 +61,9 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    # MIDDLEWAREs relacionados ao corsheaders
+    "corsheaders.middleware.CorsMiddleware",
+    "django.middleware.common.CommonMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -121,6 +127,13 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
+
+# cros origin
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:5000",
+    "http://127.0.0.1:5500",
+]
+
 
 
 # Internationalization
