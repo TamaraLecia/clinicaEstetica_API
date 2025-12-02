@@ -1,0 +1,57 @@
+{% extends 'indexADM.html' %}
+
+{% block content %}
+    <a href="/administrador/logout/" class="btn btn-light btn-sm"><i class="bi bi-box-arrow-left text-danger"></i>Logout</a>
+    <div class="container mt-5">
+      <h3 class="mb-4 text-center text-primary">📋 Painel Administrativo</h3>
+
+      <div class="row">
+        <div class="col-12">
+          <table class="table table-bordered table-hover text-center shadow">
+            <thead class="table-primary">
+              <tr>
+                <th>Função</th>
+                <th>Ação</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Administradores</td>
+                <td>
+                  <a href="/administrador/verAdministrador" class="btn btn-outline-primary">👤 Ver Administradores</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Serviços</td>
+                <!-- Ver depois -->
+                <td>
+                  <a href="/administrador/verServico" class="btn btn-outline-success"><i class="bi bi-bag-check"></i>Ver Serviços</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Profissionais</td>
+                <td>
+                  <a href="/administrador/verProfissional" class="btn btn-outline-info"><i class="bi bi-person-badge-fill"></i>Ver Profissionais</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Clientes</td>
+                <td>
+                  <a href="/administrador/verCliente" class="btn btn-outline-warning">🧑‍🤝‍🧑 Ver Clientes</a>
+                </td>
+              </tr>
+              <tr>
+                <td>Planos</td>
+                <td>
+                  <a href="/administrador/verPlano" class="btn btn-outline-info"><i class="bi bi-person-badge-fill"></i>Ver
+                    Planos</a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+
+{% endblock %}
