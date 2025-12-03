@@ -42,6 +42,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # Django rest framework
     'rest_framework',
+    # django rest framework para autenticação
+    'rest_framework_simplejwt',
 
     #para documentar a api
     'drf_yasg',
@@ -59,6 +61,18 @@ INSTALLED_APPS = [
     'servico',
     'plano',
 ]
+
+# configurações da autenticação JWT
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES':(
+        # informa que a API está usando JWT para autenticação, que é responsável por gerar e válidar tokéns
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ),
+    'DEFAULT_PERMISSION_CLASSES':(
+        # define que todas as rotas da API só seja acessada por usuários autenticados
+        'rest_framework.permissions.IsAuthenticated',
+    )
+}
 
 MIDDLEWARE = [
     # MIDDLEWAREs relacionados ao corsheaders
