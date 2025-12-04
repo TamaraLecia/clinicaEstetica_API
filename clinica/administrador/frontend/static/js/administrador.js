@@ -131,3 +131,19 @@ async function refreshAccessToken() {
         alert("Sessão expirada. Faça login novamente");
     }
 }
+function mostrarAdministrador(){
+    const token = sessionStorage.getItem("acessToken")
+
+    axios.get('http://localhost:8000/apiAdministrador/', {
+        headers: {
+            Authorization: "Bearer " + token,
+        }
+    }).then(response => {
+        // os dados da API vem no formato json
+        const data = response.data;
+
+        const container = document.getElementById("listAdmin");
+        
+
+    })
+}
