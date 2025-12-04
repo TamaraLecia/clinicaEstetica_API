@@ -44,7 +44,7 @@ INSTALLED_APPS = [
     # Django rest framework
     'rest_framework',
     # django rest framework para autenticação
-    'rest_framework_simplejwt',
+    # 'rest_framework_simplejwt', TIREIO PORQUE ESTAVA DANDO ERRO O CORRETO É SÓ rest_framework
 
     #para documentar a api
     'drf_yasg',

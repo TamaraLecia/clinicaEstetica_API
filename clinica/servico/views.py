@@ -24,17 +24,29 @@ class ServicoAPIView(APIView):
 
     # permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
 
-#Adicionar Categoria de serviço
-@permission_required('servico.add_servico', raise_exception=True)
-def addCategoria(request):
-    formServico = ServicoCategoriaForm(request.POST, request.FILES)
-    print(formServico.errors)
+    #ver todos os servicos
+    def get(self, request):
+        servicos = Servico.objects.all()
+        serializer = ServicoSerializer(servicos, many=True)
+        return Response(serializer.data)
+    
+    #adicionar servicos
+    def post(self, request):
+        serializer = ServicoSerializer(data=request.data)
+        if serializer.is_valid():
+            servico = serializer.save()
+            mensagem = {"mensagem": "Serviço cadastrado com sucesso"}
+            return Response({
+                "servico": serializer.data, **mensagem}, status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            # servico.save()
+            # return Response(serializer.data)
 
-    if formServico.is_valid():
-        categoriaServico = formServico.save(commit=False)
-        categoriaServico.save()
-        return redirect('indexServico')
-    return render(request, 'servico/servicoForm.html', {'formServico' :formServico})
+        if formServico.is_valid():
+            categoriaServico = formServico.save(commit=False)
+            categoriaServico.save()
+            return redirect('indexServico')
+        return render(request, 'servico/servicoForm.html', {'formServico' :formServico})
 
 # mostra as categorias de cada servico
 # Ela tem como argumento o request, o template = '', que permite que
