@@ -1,7 +1,9 @@
 from django.urls import path 
 from .import views
+from .views import PlanoAPIView
 
 urlpatterns = [
+    path('api/planos/', PlanoAPIView.as_view(), name='api_planos'),
     path("index/", views.index, name="indexPlano"),
     path("addPlano/", views.addPlano, name="addPlano"),
     path("alterarPlano/<int:id>/", views.alterarPlano, name="alterarPlano"),
