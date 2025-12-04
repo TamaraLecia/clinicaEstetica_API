@@ -10,6 +10,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
 from .serializers import PlanoSerializer
+from rest_framework import generics
 
 class PlanoAPIView(APIView):
     parser_classes = [MultiPartParser, FormParser]
@@ -35,6 +36,18 @@ class PlanoAPIView(APIView):
             )
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+# EDITAR um plano específico (GET, PUT, PATCH)
+class PlanoUpdateAPIView(generics.RetrieveUpdateAPIView):
+    queryset = Plano.objects.all()
+    serializer_class = PlanoSerializer
+    lookup_field = 'id'
+
+# DELETAR um plano específico
+class PlanoDeleteAPIView(generics.DestroyAPIView):
+    queryset = Plano.objects.all()
+    serializer_class = PlanoSerializer
+    lookup_field = 'id'
 
 #Criar plano
 @permission_required('plano.add_plano', raise_exception=True)
