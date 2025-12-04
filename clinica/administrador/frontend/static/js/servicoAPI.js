@@ -1,8 +1,16 @@
 // consumindo a API de serviço
 const API_URLl = "http://127.0.0.1:8000/servico/"; //LINK DA API
 
+// Utilizando o token obtido no login
+const token = sessionStorage.getItem("acessToken")
+
 // Faça a requisiçao da API GET usando o Axios
-axios.get(API_URLl).then(response =>{
+axios.get(API_URLl,{
+    // utilizando o token para realizar a requisiçao do get
+    headers: {
+        Authorization: `Bearer ${token}`  //autenticação JWT
+    }
+}).then(response =>{
     // os dados da API vem no formato response.data
     const data = response.data;
 
@@ -16,15 +24,28 @@ axios.get(API_URLl).then(response =>{
 
         // Percorre cada serviço retornado pela API
         data.forEach(servico => {
+            // Montar a URL completa da imagem que vem da API
+            const BASE_URL = "http://127.0.0.1:8000";
+            const imagemURL = `${BASE_URL}${servico.arquivo}`; //concatena a imagem com a BASE_URL do Django
+            let listaServico = "";
+
+            if(Array.isArray(servico.servico)){
+                //se for uma lista, utiliza o map para percorrer
+                listaServico = servico.servico.map(s => `<p><i class="fa fa-check text-primary me-2"></i>${s.servico}</p>`).join("");
+            } else if(servico.servico){
+                // se for um valor mostra a string ou o objeto ǘnico
+                listaServico = `<p><i class="fa fa-check text-primary me-2"></i>${servico.servico}</p>`;
+            }
+
             // Monta o HTML para cada serviço do carrousel
             carousel.innerHTML += `
                 <div class="pricing-item">
-                    <div class="rounded princig-content">
+                    <div class="rounded pricing-content">
                         <div class="d-flex flex-wrap align-items-center justify-content-between bg-light rounded-top border-3 border-bottom border-primary p-4">
                             <h1 class="display-4 mb-0">
                                 <small class="align-top text-muted" style="font-size: 22px;">R$</small>${servico.preco}
                             </h1>
-                            <img src="${servico.arquivo}" class="img-thumbnail w-80 h-40" alt="Imagem">
+                            <img src="${imagemURL}" class="img-thumbnail" style="width:80%; height:40%;" alt="Imagem">
                             <div>
                                 <h5 class="text-primary text-uppercase mb-1">${servico.tipo}</h5>
                                 <h5 class="text-primary text-uppercase mb-1">${servico.profissional}</h5>
@@ -33,7 +54,7 @@ axios.get(API_URLl).then(response =>{
                         </div>
                         <div class="p-4">
                             <!-- Lista os sub-serviços -->
-                            ${servico.servico.map(s => `<p><i class="fa fa-check text-primary me-2"></i>${s.servico}</p>`).join("")}
+                            ${listaServico}
                             <!-- Botões de ação -->
                             <a href="/administrador/alterarServico/${servico.id}" class="btn btn-primary rounded-pill my-2 px-4">Alterar Serviço</a>
                             <a href="/administrador/alterarCategoria/${servico.id}" class="btn btn-warning"><i class="bi bi-pencil-fill"></i> Alterar Categoria</a>
@@ -49,7 +70,7 @@ axios.get(API_URLl).then(response =>{
         container.appendChild(carousel);
 
         // Inicia o Owl Carousel
-        $('.owl-carousel').owlCarousel({ loop:true, margin:10, nav:true, items:3 });
+        $('.owl-carousel').owlCarousel({ loop:true, margin:10, nav:true, items: 3, autoplay: true, autoplayTimeout: 1000, autoplayHoverPause: true});
 
     } else if (data.length >= 1){
         // Se houver até 3 serviços, exibe em cards
