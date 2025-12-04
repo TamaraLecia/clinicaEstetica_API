@@ -685,13 +685,30 @@
 .conteudo{
     margin: 0;
     /* remove margens padrão */
-    min-height: 125vh;
+    min-height: 100vh;
     /* altura mínima igual à tela */
-    background-image: url("/clinica/clinicaEstetica/frontend/static/img/logoDaClinica.png");
+    background-image: url("/clinica/clinicaEstetica/frontend/static/img/fundo.png");
     background-repeat: no-repeat;
     /* não repetir a imagem */
     background-size: cover;
     /* cobre toda a tela */
     background-position: center center;
     /* centraliza a imagem */
+    position: relative;
+    /* torna a div relativa para que a div filho fique absoluta */
+}
+
+.conteudo1{
+    background-image: url("/clinica/clinicaEstetica/frontend/static/img/logoDaClinica.png");
+    background-repeat: no-repeat;
+    /* não repetir a imagem */
+    background-position: center center;
+    /* centraliza a imagem */
+    width: 590px;
+    height: 590px;
+    position:absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+
 }

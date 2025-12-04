@@ -14,7 +14,8 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-from rest_framework import status, permissions
+from rest_framework import status
+from rest_framework.permissions import AllowAny
 
 # importações do oauth2 - oauth-toolkit
 # from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, TokenHasScope
@@ -24,6 +25,11 @@ from rest_framework import status, permissions
 
 # API para a primeira vez que criar um usuário no sistema
 class primeiroAdministradorAPIView(APIView):
+    # permite o acesso sem login
+    permission_classes = [AllowAny]
+    # permite usuários não autenticado
+    authenticatication_classes = []
+
     def post(self, request):
         if User.objects.filter(is_superuser=True).exists():
             return Response(
