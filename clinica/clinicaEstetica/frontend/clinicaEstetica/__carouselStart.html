@@ -1,0 +1,36 @@
+{% load static %}
+
+
+<div id="carouselId" class="carousel slide" data-bs-ride="carousel">
+    <ol class="carousel-indicators">
+        <!--Nesse item da lista será utilizado o forloop.counter0 que funciona
+            como um contador para exibir todas as categorias dos serviços-->
+        {% for categoria in servicoPorCategoria.items %}
+        <li data-bs-target="#carouselId" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"
+            {% endif %}></li>
+        {% endfor %}
+    </ol>
+  
+    <div class="carousel-inner" role="listbox">
+        {% for categoria, servico in servicoPorCategoria.items %}
+        <!--Nessa div foi usado o forloop .first onde faz com que apenas o primeiro
+            item do carroseul seja ativado durante a interação-->
+        <div class="carousel-item {% if forloop.first %} active {% endif %}">
+            <img src="{{servico.imagem.url}}" class="img-fluid" alt="Image">
+            <div class="carousel-caption">
+                <div class="p-3" style="max-width: 900px;">
+                    <h1 class="display-1 text-capitalize text-dark mb-3">{{categoria}}</h1>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+    <button class="carousel-control-prev" type="button" data-bs-target="#carouselId" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#carouselId" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+    </button>
+</div>
