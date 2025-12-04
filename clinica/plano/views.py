@@ -53,7 +53,6 @@ def addPlano(request):
 def index(request):
     return render(request, 'plano/indexPlano.html')
 
-
 #Editar planos
 @permission_required('plano.change_plano', raise_exception=True)
 def alterarPlano(request, id):
