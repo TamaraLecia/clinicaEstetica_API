@@ -1,0 +1,28 @@
+{% load static %}
+
+<!-- <div class="container-fluid services py-5"> -->
+    <!-- <div class="container py-5"> -->
+        <!-- <div class="row g-4"> -->
+            {% for servico in armazenaServico %}
+            <div class="col-lg-6">
+                <div class="services-item bg-light border-4 border-end border-primary rounded p-4">
+                    <div class="row align-items-center">
+                        <div class="col-8">
+                            <div class="services-content text-end">
+                                <h3>{{servico.servico}}</h3>
+                                <p>{{servico.descricao}}</p>
+                                <a href="/cliente/marcarServico/" class="btn btn-primary btn-primary-outline-0 rounded-pill py-2 px-4">Agenda Serviço</a>
+                            </div>
+                        </div>
+                        <div class="col-4">
+                            <div class="services-img d-flex align-items-center justify-content-center rounded">
+                                <img src="{{servico.arquivo.url}}" class="img-fluid rounded" alt="">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        <!-- </div> -->
+    <!-- </div> -->
+<!-- </div> -->

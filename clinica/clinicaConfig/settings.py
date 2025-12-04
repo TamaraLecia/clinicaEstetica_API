@@ -12,6 +12,7 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 
 import os
 from pathlib import Path
+from datetime import timedelta
 
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -60,6 +61,7 @@ INSTALLED_APPS = [
     'profissional.apps.ProfissionalConfig', # diz ao django qual app de configuração ele deve fazer a inicialiazação
     'servico',
     'plano',
+    'usuarioAutenticacao'
 ]
 
 # configurações da autenticação JWT
@@ -72,6 +74,16 @@ REST_FRAMEWORK = {
         # define que todas as rotas da API só seja acessada por usuários autenticados
         'rest_framework.permissions.IsAuthenticated',
     )
+}
+
+# Tempo de expiração do tokén
+SIMPLE_JWT = {
+    # tempo de expiração do tokén de acesso
+    "ACCES_TOKEN_LIFETIME": timedelta(minutes=5),
+    # tempo de expiração do tokén de refresh
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
+    # torna inválido o refresh antigo
+    "BLACKLIST_AFTER_ROTATION": True,
 }
 
 MIDDLEWARE = [
@@ -147,6 +159,9 @@ CORS_ALLOWED_ORIGINS = [
     "http://localhost:5000",
     "http://127.0.0.1:5500",
 ]
+
+# habilita o envio de cookies entre backend e frontend
+CORS_ALLOW_CREDENTIALS = True
 
 
 

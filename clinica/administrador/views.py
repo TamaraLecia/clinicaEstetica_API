@@ -21,6 +21,38 @@ from rest_framework import status, permissions
 # Create your views here.
 
 #usando APIView do rest_framework
+
+# API para a primeira vez que criar um usuário no sistema
+class primeiroAdministradorAPIView(APIView):
+    def post(self, request):
+        if User.objects.filter(is_superuser=True).exists():
+            return Response(
+                {"error": "Já existe um administrador cadastrado"},
+                status=status.HTTP_403_FORBIDDEN
+            )
+        
+        serializer = AdministradorSerializer(data=request.data)
+        if serializer.is_valid():
+            administrador = serializer.save()
+            administrador.identificador = 'administrador'
+            administrador.save()
+
+            # adiciona ao grupo de Administradores
+            grupo, _= Group.objects.get_or_create(name='Administradores')
+            administrador.user.groups.add(grupo)
+
+            # chama a função de tornar Admin
+            # chama a função tornar ADMIN
+            msg = tornarAdmin(administrador.user.username)
+
+            return Response({
+                "administrador": serializer.data,
+                **msg
+            }, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+
 class AdministradorAPIView(APIView):
     # forma de realizar a authenticação com oauth-toolkit
     # permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
