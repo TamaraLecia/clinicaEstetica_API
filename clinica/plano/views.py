@@ -1,8 +1,8 @@
-# from django.shortcuts import redirect, render
-# from django.urls import reverse
-# from plano.models import Plano
-# from plano.forms import EditPlanoForm, PlanoForm
-# from django.contrib.auth.decorators import permission_required
+from django.shortcuts import redirect, render
+from django.urls import reverse
+from plano.models import Plano
+from plano.forms import EditPlanoForm, PlanoForm
+from django.contrib.auth.decorators import permission_required
 
 #IMPORTAÇÕES DE API
 from rest_framework.views import APIView
