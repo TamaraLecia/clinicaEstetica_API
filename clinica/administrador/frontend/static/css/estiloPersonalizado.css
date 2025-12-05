@@ -13,4 +13,46 @@
     color: #fa043c;
 }
 
+/* O carrossel como referência de posicionamento */
+.owl-carousel {
+  position: relative;
+  overflow: visible; /* permite ver as setas fora dos cards */
+}
 
+/* Barra de navegação centralizada verticalmente, sem usar 100vw */
+.owl-nav {
+  position: absolute;
+  top: 50%;
+  left: 0;
+  width: 100%;                /* usa a largura do carrossel */
+  transform: translateY(-50%);
+  color: white;
+  font-weight: bold;
+  z-index: 10;
+}
+
+/* Botões das setas */
+.owl-nav button {
+  background: none !important;
+  border: none !important;
+  font-size: 3rem;
+  color: #fff;
+  cursor: pointer;
+  pointer-events: all;
+}
+
+/* Posiciona cada seta por lado, sem margens negativas */
+.owl-nav .owl-prev,
+.owl-nav .owl-next {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+.owl-nav .owl-prev {
+  left: -40px;   /* empurra para fora dos cards (ajuste fino) */
+}
+
+.owl-nav .owl-next {
+  right: -40px;  /* empurra para fora dos cards (ajuste fino) */
+}

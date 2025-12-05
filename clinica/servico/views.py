@@ -42,11 +42,38 @@ class ServicoAPIView(APIView):
             # servico.save()
             # return Response(serializer.data)
 
-        if formServico.is_valid():
-            categoriaServico = formServico.save(commit=False)
-            categoriaServico.save()
-            return redirect('indexServico')
-        return render(request, 'servico/servicoForm.html', {'formServico' :formServico})
+class CategoriaAPIView(APIView):
+    # faz com que a view aceite as requisições dos arquivos
+    parser_classes = [MultiPartParser, FormParser]
+
+    # mostra as categorias cadastradas
+    def get(self, request):
+        categorias = TipoServico.objects.all()
+        serializer = CategoriaSerializer(categorias,many=True)
+        return Response(serializer.data)
+    
+    # adiciona as categorias
+    def post(self, request):
+        serializer = CategoriaSerializer(data=request.data)
+        if serializer.is_valid():
+            categoria = serializer.save()
+            mensagem = {"mensagem": "Categoria cadastrada com sucesso"}
+            return Response({
+                "categoria": serializer.data, **mensagem
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Editar categoria
+    def put(self, request):
+        serializer = CategoriaSerializer(data=request.data)
+        if serializer.is_valid():
+            categoria = serializer.save()
+            mensagem = {"mensagem": "Categoria atualizada com sucesso"}
+            return Response({
+                "categoria": serializer.data, **mensagem
+            }, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
 
 # mostra as categorias de cada servico
 # Ela tem como argumento o request, o template = '', que permite que
