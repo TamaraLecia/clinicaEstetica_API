@@ -17,4 +17,4 @@ class Profissional(models.Model):
         )
 
     def __str__(self):
-        return f'Nome: {self.nome} -- Especialização: {self.especializacao}'
+        return f'Profissional: {self.nome} -- Especialização: {self.especializacao}'

@@ -1,35 +1,24 @@
-{% extends 'indexADM.html' %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" rel="stylesheet">
+  <title>ver administrador</title>
+</head>
+<body>
+  <a href="/administrador/index/" class="btn btn-light btn-sm">Voltar</a>
+  <div class="container mt-4">
+    <h3 class="mb-3 text-primary text-center">👥 Administradores Cadastrados</h3>
+    
+    <div class="container" id="listAdmin"></div>
 
-{% block content %}
-<a href="/administrador/index/" class="btn btn-light btn-sm">Voltar</a>
-<div class="container mt-4">
-  <h3 class="mb-3 text-primary text-center">👥 Administradores Cadastrados</h3>
+  </div>
 
-  <table class="table table-bordered table-hover">
-    <thead class="table-primary">
-      <tr>
-        <th>Nome de usuário</th>
-        <th>Email</th>
-        <th>Nome completo</th>
-        <th>Ações</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for administrador in administradores %}
-      <tr>
-        <td>{{ administrador.user.username }}</td>
-        <td>{{ administrador.user.email }}</td>
-        <td>{{ administrador.nome }}</td>
-        <td class="d-flex justify-content-between">
-           <a href="/administrador/editarAdministrador/{{user.username}}"><i class="bi bi-pencil-square text-blue"></i></a>  
-          <a href="/administrador/deletarAdministrador/{{user.username}}"><i class="bi bi-trash3-fill text-danger"></i></a>
-          <a href="/administrador/alterarSenha/{{user.username}}"><i class="bi bi-file-lock2-fill"></i>Alterar senha</a>
-        </td>
-      </tr>
-      {% empty %}
-      <tr><td colspan="3">Nenhum administrador cadastrado.</td></tr>
-      {% endfor %}
-    </tbody>
-  </table>
-</div>
-{% endblock %}
+  <!-- Script do axios, coloquei aqui embaixo para não atrasar o carregamento da página -->
+  <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+  <script src="/clinica/administrador/frontend/static/js/administrador.js"></script>
+
+</body>
+</html>

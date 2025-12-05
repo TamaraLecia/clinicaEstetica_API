@@ -1,9 +1,10 @@
 from django.urls import path 
 from .import views
-from .views import ServicoAPIView 
+from .views import ServicoAPIView, CategoriaAPIView
 
 urlpatterns = [
-    path("index/", ServicoAPIView.as_view(), name="indexServico"),
+    path("", ServicoAPIView.as_view(), name="indexServicoAPI"),
+    path("categoriaApi/", CategoriaAPIView.as_view(), name="categoriaApi"),
     path("addServico/", views.addServico, name="addServico"),
     path("alterarServico/<int:id>/", views.alterarServico, name="alterarServico"),
     path("deletarServico/<int:id>/", views.deletarServico, name="deletarServico"),

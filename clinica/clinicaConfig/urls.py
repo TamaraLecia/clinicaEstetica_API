@@ -45,7 +45,7 @@ urlpatterns = [
     path("cliente/", include("cliente.urls")),
     path("profissional/", include("profissional.urls")),
     path("servico/", include("servico.urls")),
-    path("plano/", include("plano.urls")),
+    # path("plano/", include("plano.urls")),
     path('accounts/', include('django.contrib.auth.urls')),
     path('swagger/', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     path('redoc/', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

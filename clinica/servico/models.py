@@ -5,7 +5,7 @@ class TipoServico(models.Model):
     imagem = models.FileField(upload_to="img_servico")
 
     def __str__(self):
-        return f'{self.categoria}'
+        return f'Categoria do serviço:{self.categoria}'
 
 class Servico(models.Model):
     #related_name: permite acessar todos os serviços na view ou no template
