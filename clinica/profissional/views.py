@@ -9,9 +9,10 @@ from profissional.forms import EditProfissionalForm, ProfissionalForm, SenhaForm
 from django.contrib.auth.decorators import login_required, permission_required
 
 from rest_framework.views import APIView
-from .serializers import ProfissionalSerializer
+from .serializers import ProfissionalSerializer, AlterarSenhaSerializer
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 
 # Create your views here.
 
@@ -39,6 +40,41 @@ class ProfissionalAPIView(APIView):
                 "profissional": serializer.data, **mensagem
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+class ProfissionalDetail(APIView):
+    # permite o acesso sem login
+    permission_classes = [AllowAny]
+    # permite usuários não autenticado
+    authenticatication_classes = []
+    
+    def get(self, request, username):
+        Profissional = get_object_or_404(Profissional.objects.all(), user__username=username)
+        serializer = ProfissionalSerializer(Profissional)
+        return Response(serializer.data)
+    
+    #Update
+    def put(self, request, username):
+        profissional = get_object_or_404(Profissional.objects.all(), user__username=username)
+        serializer = ProfissionalSerializer(profissional, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            if 'senha' in request.data or 'novaSenha' in request.data:
+                serializerSenha = AlterarSenhaSerializer(data=request.data)
+                if serializerSenha.is_valid():
+                    serializerSenha.save()
+                else:
+                    return Response(serializerSenha.errors, status=status.HTTP_400_BAD_REQUEST)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    #Delete
+    def delete(self, request, username):
+        profissional = get_object_or_404(Profissional.objects.all(), user__username=username)
+        profissional.user.delete()
+        profissional.delete()
+        return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 # @login_required()
 # @permission_required('profissional.view_profissional', raise_exception=True)

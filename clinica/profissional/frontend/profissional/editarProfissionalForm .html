@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Form de editar profissional</title>
+</head>
+
+<body>
+    <a href="profissional/frontend/indexProf.html" class="btn btn-light btn-sm">Voltar</a>
+    <div class="d-flex justify-content-center align-items-center m-3 h-100">
+
+        <form class="p-4 rounded shadow-sm w-50 h-100" style="background-color:#FBCBF2;" id="editAdminformulario">
+
+            <label for="email">E-mail:</label>
+            <input type="email" name="email" id="email" required>
+
+            <br>
+            <br>
+
+            <label for="nome">Nome:</label>
+            <input type="text" name="nome" id="nome">
+
+            <br>
+            <br>
+
+            <label for="endereco">Endereço:</label>
+            <input type="text" name="endereco" id="endereco">
+            
+            <br>
+            <br>
+
+            <label for="telefone">Telefone:</label>
+            <input type="number" name="telefone" id="telefone">
+            
+            <br>
+            <br>
+
+            <button type="submit" style="background-color: #DBB8E3">Salvar</button>
+        </form>
+    </div>
+
+    <!-- axios é utilizado para realizar a comunicação do front com a API -->
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- javaScript onde está as funções que realiza a comunicação com o a API -->
+    <script type="module" src="/clinica/profissional/frontend/static/js/profissional.js"></script>
+
+</body>
+
+</html>

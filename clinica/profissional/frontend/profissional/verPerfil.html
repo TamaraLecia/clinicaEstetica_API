@@ -1,0 +1,25 @@
+{% extends 'indexProf.html' %}
+
+{% block content %}
+<a href="/profissional/logout/" class="btn btn-light btn-sm"><i class="bi bi-box-arrow-left text-danger"></i>Logout</a>
+<a href="/profissional/redirecionaParaIndexClinica/" class="btn btn-light btn-sm">Voltar</a>
+<div class="container mt-4">
+  <div class="card shadow">
+    <div class="card-header bg-primary text-white d-flex justify-content-between align-items-center">
+        <h5 class="mb-0">👤 Dados do Perfil</h5>
+      <a href="/profissional/editarDadosProfissional/" class="btn btn-light btn-sm">Editar Perfil</a>
+      <a href="/profissional/excluirConta/{{user.username}}" class="btn btn-light btn-sm"><i class="bi bi-trash3-fill"></i>Excluir Conta</a>
+      <a href="/profissional/alterarSenha/{{user.username}}" class="btn btn-light btn-sm"><i class="bi bi-file-lock2-fill"></i>Alterar Senha</a>
+      
+    </div>
+    <div class="card-body">
+      <p><strong>Nome de usuário:</strong> {{ user.username }}</p>
+      <p><strong>Email:</strong> {{ user.email }}</p>
+      <p><strong>Nome:</strong> {{ profissional.nome }}</p>
+      <p><strong>Endereço:</strong> {{ profissional.endereco }}</p>
+      <p><strong>Telefone:</strong> {{ profissional.numTelefone}}</p>
+      <p><strong>especializacao:</strong> {{ profissional.especializacao }}</p>
+    </div>
+  </div>
+</div>
+{% endblock %}
