@@ -3,7 +3,7 @@ const API_URLl = "http://127.0.0.1:8000/servico/"; //LINK DA API
 // consumindo a API de categoria do serviço
 const API_TIPOCATEGORIA = "http://127.0.0.1:8000/servico/categoriaApi/";
 // consumindo a API de profissional
-const API_PROFISSIONAIS = "http://127.0.0.1:8000/profissional/profissionalApi/";
+const API_PROFISSIONAIS = "http://127.0.0.1:8000/apiProfissional/profissionalApi/";
 // consumindo a API de alterar serviço
 // pega o id que vem da url
 const urlParams = new URLSearchParams(window.location.search);
