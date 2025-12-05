@@ -94,33 +94,34 @@ class AdministradorAPIView(APIView):
 class AdministradorDetail(APIView):
     # permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
     
-    def get(self, request, id):
-        administrador = get_object_or_404(Administrador.objects.all(), id=id)
+    def get(self, request, username):
+        administrador = get_object_or_404(Administrador.objects.all(), username=username)
         serializer = AdministradorSerializer(administrador)
         return Response(serializer.data)
     
     #Update
-    def put(self, request, id):
-        administrador = get_object_or_404(Administrador.objects.all(), id=id)
-        serializer = AdministradorSerializer(administrador, data=request.data)
+    def put(self, request, username):
+        administrador = get_object_or_404(Administrador.objects.all(), user__username=username)
+        serializer = AdministradorSerializer(administrador, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
-            return Response(serializer.data)
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
     #Delete
-    def delete(self, request, id):
-        administrador = get_object_or_404(Administrador.objects.all(), id=id)
+    def delete(self, request, username):
+        administrador = get_object_or_404(Administrador.objects.all(), user__username=username)
+        administrador.user.delete()
         administrador.delete()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
 class AlterarSenha(APIView):
-    # permission_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
-
     def put(self, request):
         serializer = AlterarSenhaSerializer(data=request.data)
         if serializer.is_valid():
             serializer.save()
-        return Response(serializer.errors, status=400)
+            return Response({"detail": "Senha alterada com sucesso."}, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 class VerProfissional(APIView):
     # permission_classes = [permissions.IsAuthenticated, TokenHasScope]

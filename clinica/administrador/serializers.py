@@ -34,18 +34,34 @@ class AdministradorSerializer(serializers.ModelSerializer):
         )
         return administrador
     
-class AlterarSenhaSerializer(serializers.ModelSerializer):
-    class Meta:
-        username = serializers.CharField()
-        senha = serializers.CharField()
+    def update(self, instance, validated_data):
+        user_data = validated_data.pop('user', None)
+        if user_data:
+            instance.user.email=user_data.get('email', instance.user.email)
+        
+        instance.nome=validated_data.get('nome', instance.nome)
+        instance.save()
+        return instance
 
-        def save(self):
-            username = self.validated_data['username']
-            senha = self.validated_data['senha']
-            usuario = User.objects.get(username=username)
-            usuario.set_password(senha)
-            usuario.save()
-            return usuario
+
+# foi utilizado o serializers.Serializer por que não estou alterando ou criando um modelo diretamente
+class AlterarSenhaSerializer(serializers.Serializer):
+    username = serializers.CharField()
+    senha = serializers.CharField()
+    senhaConfirme = serializers.CharField()
+
+    def validate(self, data):
+        if data['senha'] != data['senhaConfirme']:
+            raise serializers.ValidationError({"Senha incorreta"})
+        return data
+
+    def save(self):
+        username = self.validated_data['username']
+        senha = self.validated_data['senha']
+        usuario = User.objects.get(username=username)
+        usuario.set_password(senha)
+        usuario.save()
+        return usuario
 
 
 class VerProfissionalSerializer(serializers.ModelSerializer):
