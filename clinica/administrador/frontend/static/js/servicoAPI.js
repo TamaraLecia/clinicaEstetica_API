@@ -4,6 +4,12 @@ const API_URLl = "http://127.0.0.1:8000/servico/"; //LINK DA API
 const API_TIPOCATEGORIA = "http://127.0.0.1:8000/servico/categoriaApi/";
 // consumindo a API de profissional
 const API_PROFISSIONAIS = "http://127.0.0.1:8000/profissional/profissionalApi/";
+// consumindo a API de alterar serviço
+// pega o id que vem da url
+const urlParams = new URLSearchParams(window.location.search);
+const id = urlParams.get("id");
+// adiciona o id da url na api do serviço
+const API_ALTERAR_SERVICO = `http://127.0.0.1:8000/servico/alterarServico/${id}/`;
 
 // Utilizando o token obtido no login
 const token = sessionStorage.getItem("acessToken")
@@ -65,10 +71,8 @@ axios.get(API_URLl,{
                             <!-- Lista os sub-serviços -->
                             ${listaServico}
                             <!-- Botões de ação -->
-                            <a href="/administrador/alterarServico/${servico.id}" class="btn btn-primary rounded-pill my-2 px-4">Alterar Serviço</a>
-                            <a href="/administrador/alterarCategoria/${servico.id}" class="btn btn-warning"><i class="bi bi-pencil-fill"></i> Alterar Categoria</a>
-                            <a href="/administrador/deletarCategoria/${servico.id}" class="btn btn-danger"><i class="bi bi-trash"></i> Apagar Categoria</a>
-                            <a href="/administrador/deletarServico/${servico.id}" class="btn btn-primary rounded-pill my-2 px-4">Apagar Serviço</a>
+                            <a href="/clinica/servico/frontend/servico/atualizarServico.html?id=${servico.id}" class="btn btn-warning rounded-pill my-2 px-4">Alterar Serviço</a>
+                            <a href="/clinica/servico/frontend/servico/confirmarExclusaoServico.html?id=${servico.id}" class="btn btn-danger rounded-pill my-2 px-4">Apagar Serviço</a>
                         </div>
                     </div>
                 </div>
@@ -109,10 +113,8 @@ axios.get(API_URLl,{
                                 </div>
                             </div>
                             <div class="p-4">
-                                <a href="/administrador/alterarServico/${servico.id}" class="btn btn-primary rounded-pill my-2 px-4 fs-14">Alterar Serviço</a> 
-                                <a href="/administrador/alterarCategoria/${servico.id}" class="btn btn-warning rounded-pill my-2 px-4"><i class="bi bi-pencil-fill"></i> Alterar Categoria</a>
-                                <a href="/administrador/deletarCategoria/${servico.id}" class="btn btn-danger rounded-pill my-2 px-4"><i class="bi bi-trash"></i> Apagar Categoria</a>
-                                <a href="/administrador/deletarServico/${servico.id}" class="btn btn-primary rounded-pill my-2 px-4">Apagar Serviço</a>
+                                <a href="/clinica/servico/frontend/servico/atualizarServico.html?id=${servico.id}" class="btn btn-warning rounded-pill my-2 px-4 fs-14">Alterar Serviço</a> 
+                                <a href="/clinica/servico/frontend/servico/confirmarExclusaoServico.html?id=${servico.id}" class="btn btn-danger rounded-pill my-2 px-4">Apagar Serviço</a>
                             </div>
                         </div>
                     </div>
@@ -201,16 +203,16 @@ if(formAdicionarServico){
     });
 
     // carregar o tipo de categoria somente se existir
-    const selectTipoCategoria = document.getElementById("tipo_nome");
-    if(selectTipoCategoria){
-        carregarCategorias();
-    }
+    // const selectTipoCategoria = document.getElementById("tipo_nome");
+    // if(selectTipoCategoria){
+    //     carregarCategorias();
+    // }
 
-    // carregar os profissionais somente se existir algum
-    const selectProfissionais = document.getElementById("profissional_nome");
-    if(selectProfissionais){
-        carregarProfissionais();
-    }
+    // // carregar os profissionais somente se existir algum
+    // const selectProfissionais = document.getElementById("profissional_nome");
+    // if(selectProfissionais){
+    //     carregarProfissionais();
+    // }
 }
 
 // ADICIONANDO A CATEGORIA DO SERVIÇO
@@ -239,4 +241,157 @@ if (formAdicionarCategoria) {
             alert("Erro ao adicionar categoria");
         }
     });
+}
+
+
+// ALTERAR DADOS DO SERVIÇO
+const formEditarServico = document.getElementById("formularioEditarServico");
+
+if(formEditarServico){
+    // Carregar categorias
+    async function carregarCategorias(){
+        try{
+            const responnse = await axios.get(API_TIPOCATEGORIA, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const categorias = responnse.data;
+            const selectTipo = document.getElementById("tipo_nome");
+            selectTipo.innerHTML = "<option value=''>Selecione uma categoria</option>";
+            categorias.forEach(categoria => {
+                const option = document.createElement("option");
+                option.value = categoria.categoria;
+                option.textContent = categoria.categoria;
+                selectTipo.appendChild(option);
+            });
+        } catch (err) {
+            console.error("Erro ao carregar categorias: ", err);
+        }
+    }
+
+    // carregar profissionais
+    async function carregarProfissionais() {
+        try{
+            const response = await axios.get(API_PROFISSIONAIS, {
+                headers:{
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const profissionais = response.data;
+            const selectProfissional = document.getElementById("profissional_nome");
+            selectProfissional.innerHTML = "<option value=''>Selecione um profissional</option>";
+            profissionais.forEach(profi => {
+                const option = document.createElement("option");
+                option.value = profi.nome;
+                option.textContent = profi.nome;
+                selectProfissional.appendChild(option);
+            });
+        } catch (err) {
+            console.error("Erro ao carregar profissionais: ", err);
+        }
+    }
+
+    // Carregar os dados do serviço para preencher o formulário
+    async function carregarServico() {
+        try{
+            const response = await axios.get(API_ALTERAR_SERVICO, {
+                headers : {
+                    Authorization : `Bearer ${token}`
+                }
+            });
+
+            const servico = response.data;
+
+            // preenche os campos
+            document.getElementById("servico").value = servico.servico;
+            document.getElementById("preco").value = servico.preco;
+            document.getElementById("descricao").value = servico.descricao;
+            document.getElementById("tipo_nome").value = servico.tipo;
+            document.getElementById("profissional_nome").value = servico.profissional;
+            // Mostra a imagem atual
+            const BASE_URL = "http://127.0.0.1:8000";
+            document.getElementById("mostraPreviaImagem").src = `${BASE_URL}${servico.arquivo}`;
+        } catch (err) {
+            console.error("Erro ao carregar servico:", err);
+        }
+    }
+
+    // Executa ao carregar a página
+    window.addEventListener("DOMContentLoaded", async () => {
+        await carregarCategorias();
+        await carregarProfissionais();
+        await carregarServico();
+    });
+
+    // Envia os dados editados
+    formEditarServico.addEventListener("submit", async (e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target);
+
+        try{
+            const response = await axios.put(`${API_ALTERAR_SERVICO}`, formData, {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                }
+            });
+            alert("Serviço atualizado com sucesso!");
+            console.log(response.data);
+            window.location.href = "/clinica/servico/frontend/servico/indexServico.html";
+        } catch (err) {
+            console.error("Erro ao atualizar serviço: ", err.response?.data || err);
+            alert("Erro ao atualizar o serviço");
+        }
+    });
+}
+
+// EXCLUIR SERVIÇO
+const exclusaoServico = document.getElementById("excluirServico");
+
+if(exclusaoServico){
+    // Busrcar dados do serviço e preenche na tela
+    async function carregarServico() {
+        try{
+            const response = await axios.get(API_ALTERAR_SERVICO, {
+                headers: {
+                    Authorization: `Bearer ${token}`
+                }
+            });
+
+            const servico = response.data;
+
+            document.getElementById("nomeServico").textContent = servico.servico;
+            document.getElementById("precoServico").textContent = servico.preco;
+            document.getElementById("descricaoServico").textContent = servico.descricao;
+
+            const BASE_URL = "http://127.0.0.1:8000";
+            document.getElementById("imagemServico").src = `${BASE_URL}${servico.arquivo}`;
+        } catch (err){
+            console.error("Erro ao carregar serviço:", err);
+            alert("Erro ao carregar informações do serviço");
+        }
+    }
+
+    // Confirmando exclusão
+    document.getElementById("btnConfirmarExclusao").addEventListener("click", async () => {
+        if(confirm("Tem certeza que deseja excluir este serviço?")){
+            try{
+                await axios.delete(API_ALTERAR_SERVICO, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
+                // alert("Serviço excluído com sucesso!");
+                window.location.href = "/clinica/administrador/frontend/administrador/todosServicos.html";
+            } catch (err) {
+                console.error("Erro ao excluir serviço:", err.response?.data || err);
+                alert("Erro ao excluir o serviço");
+            }
+        }
+    });
+
+    // Executa ao carregar a página
+    window.addEventListener("DOMContentLoaded", carregarServico);
 }

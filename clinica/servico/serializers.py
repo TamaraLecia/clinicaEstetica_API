@@ -32,6 +32,41 @@ class ServicoSerializer(serializers.ModelSerializer):
             profissional = profissional_objeto,
             **validated_data
         )
+    
+    # função serializer de atualizar profissional
+    def update(self, instance, validated_data):
+        # instance é objeto do modelo que vai ser atualizado
+        # validated_data é os dados validados vindos da requisição
+        # Atualiza o tipo de categoria do serviço
+        tipo_nome = validated_data.pop("tipo_nome", None)
+
+        if tipo_nome:
+            try:
+                tipo_objeto = TipoServico.objects.get(categoria=tipo_nome)
+                instance.tipo = tipo_objeto
+            except TipoServico.DoesNotExist:
+                raise serializers.ValidationError({"tipo_nome": "Tipo de serviço não encontrado"})
+        
+        # Atualiza o profissional que está fazendo o serviço
+        profissional_nome = validated_data.pop("profissional_nome", None)
+        
+        if profissional_nome:
+            try:
+                profissional_objeto = Profissional.objects.get(nome = profissional_nome)
+                instance.profissional = profissional_objeto
+            except Profissional.DoesNotExist:
+                raise serializers.ValidationError({"profissional_nome": "Profissional não encontrado"})
+            
+        # Atializando as outras informações do serviço
+        for attr, value in validated_data.items():
+            # O setattr atualiza cada atributo da instancia com o valor correspondente
+            setattr(instance, attr, value)
+        # Salva as alterações no banco de dados
+        instance.save()
+        # retorna o modelo atualizado para o django Rest framework
+        return instance
+
+
 
 class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:

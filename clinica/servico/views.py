@@ -13,6 +13,7 @@ from .serializers import ServicoSerializer, CategoriaSerializer
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 from rest_framework.parsers import MultiPartParser, FormParser
+from django.shortcuts import get_object_or_404
 
     # categorias = Servico.objects.values_list('categoria', flat=True).distinct()
     # servicoPorCategoria = {}
@@ -42,6 +43,36 @@ class ServicoAPIView(APIView):
             # servico.save()
             # return Response(serializer.data)
 
+# Classe de alterar informações do serviço 
+class AlterarServicoAPIView(APIView):
+    # Mostrar um servico especifico
+    def get(self, request, id):
+        servico = get_object_or_404(Servico.objects.all(), id=id)
+        serializer = ServicoSerializer(servico)
+        return Response(serializer.data)
+
+    # atualiza um serviço já cadastrado
+    def put(self, request, id=None):
+        servico = get_object_or_404(Servico.objects.all(), id=id)
+        serializer = ServicoSerializer(servico, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data, status=status.HTTP_200_OK)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    # deletar um serviço espécifico
+    def delete(self, request, id=None):
+        servico = get_object_or_404(Servico.objects.all(), id=id)
+        servico.delete()
+        return Response({"detail": "Serviço deletado com sucesso!"}, status=status.HTTP_204_NO_CONTENT)
+
+    
+
+
+
+
+
+
 class CategoriaAPIView(APIView):
     # faz com que a view aceite as requisições dos arquivos
     parser_classes = [MultiPartParser, FormParser]
@@ -63,17 +94,7 @@ class CategoriaAPIView(APIView):
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    # Editar categoria
-    def put(self, request):
-        serializer = CategoriaSerializer(data=request.data)
-        if serializer.is_valid():
-            categoria = serializer.save()
-            mensagem = {"mensagem": "Categoria atualizada com sucesso"}
-            return Response({
-                "categoria": serializer.data, **mensagem
-            }, status=status.HTTP_201_CREATED)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
+    
 
 # mostra as categorias de cada servico
 # Ela tem como argumento o request, o template = '', que permite que
@@ -164,6 +185,6 @@ def deletarServico(request, id):
     servico.delete()
     return redirect('indexServico')
 
-#Redireciona para o painel de administrador
-def redirecionarParaAdministrador(request):
+#Redireciona para o painel de servico
+def redirecionarParaservico(request):
     return redirect(reverse('indexAdm'))
