@@ -4,13 +4,14 @@ from plano.models import Plano
 from plano.forms import EditPlanoForm, PlanoForm
 from django.contrib.auth.decorators import permission_required
 
-#IMPORTAÇÕES DE API
+# IMPORTAÇÕES DE API
 from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.parsers import MultiPartParser, FormParser
-from .serializers import PlanoSerializer
+from .serializer import PlanoSerializer
 from rest_framework import generics
+
 
 class PlanoAPIView(APIView):
     parser_classes = [MultiPartParser, FormParser]
@@ -36,12 +37,14 @@ class PlanoAPIView(APIView):
             )
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
+
+
 # EDITAR um plano específico (GET, PUT, PATCH)
 class PlanoUpdateAPIView(generics.RetrieveUpdateAPIView):
     queryset = Plano.objects.all()
     serializer_class = PlanoSerializer
     lookup_field = 'id'
+
 
 # DELETAR um plano específico
 class PlanoDeleteAPIView(generics.DestroyAPIView):
@@ -49,7 +52,8 @@ class PlanoDeleteAPIView(generics.DestroyAPIView):
     serializer_class = PlanoSerializer
     lookup_field = 'id'
 
-#Criar plano
+
+# Criar plano
 @permission_required('plano.add_plano', raise_exception=True)
 def addPlano(request):
     formPlano = PlanoForm(request.POST)
@@ -59,14 +63,16 @@ def addPlano(request):
         plano.save()
         formPlano.save_m2m()
         return redirect('indexPlano')
-    return render(request, 'plano/planoForm.html',{'formPlano': formPlano})
+
+    return render(request, 'plano/planoForm.html', {'formPlano': formPlano})
 
 
-#Ver planos
+# Ver planos
 def index(request):
     return render(request, 'plano/indexPlano.html')
 
-#Editar planos
+
+# Editar planos
 @permission_required('plano.change_plano', raise_exception=True)
 def alterarPlano(request, id):
     if request.method == 'GET':
@@ -74,12 +80,12 @@ def alterarPlano(request, id):
         plano = Plano.objects.filter(pk=id).first()
         formPlano = EditPlanoForm(instance=plano)
 
-        return render(request, 'plano/planoForm.html',{'formPlano': formPlano, 'planos': planos})
-    
+        return render(request, 'plano/planoForm.html', {'formPlano': formPlano, 'planos': planos})
+
     elif request.method == 'POST':
         planos = Plano.objects.all()
         plano = Plano.objects.get(pk=id)
-        formPlano = EditPlanoForm(request.POST,instance=plano)
+        formPlano = EditPlanoForm(request.POST, instance=plano)
 
         if formPlano.is_valid():
             formPlano.save()
@@ -88,19 +94,21 @@ def alterarPlano(request, id):
             planos = Plano.objects.all()
             return render(request, 'plano/planoForm.html')
 
-#Deletar palanos
+
+# Deletar planos
 @permission_required('plano.delete_plano', raise_exception=True)
 def deletarPlano(request, id):
     form = Plano.objects.get(pk=id)
-
     form.delete()
     return redirect('indexAdm')
 
-#Redireciona para o painel de administrador
+
+# Redireciona para o painel de administrador
 def redirecionarParaAdministrador(request):
     return redirect(reverse('indexAdm'))
 
-#Mostrar planos para cliente
+
+# Mostrar planos para cliente
 def mostrarPlano(request):
-    planos = Plano.objects.all()  # ou com filtro
+    planos = Plano.objects.all()
     return render(request, 'plano/__pricingStart.html', {'verPlano': planos})
