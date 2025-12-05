@@ -1,6 +1,6 @@
 from queue import Full
 from django.shortcuts import redirect, render
-from servico.models import Servico, TipoServico
+from servico.models import Servico, TipoServico, Agendamento
 from servico.forms import EditCategoriaForm, EditServicoForm, ServicoCategoriaForm, ServicoForm
 from django.urls import reverse
 from django.contrib.auth.decorators import permission_required
@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import permission_required
 from rest_framework.views import APIView
 from rest_framework.authentication import BasicAuthentication, SessionAuthentication, TokenAuthentication
 from rest_framework.permissions import IsAuthenticated
-from .serializers import ServicoSerializer, CategoriaSerializer
+from .serializers import ServicoSerializer, CategoriaSerializer, AgendamentoSerializer
 from rest_framework.response import Response
 from rest_framework import status, viewsets
 from rest_framework.parsers import MultiPartParser, FormParser
@@ -67,12 +67,6 @@ class AlterarServicoAPIView(APIView):
         return Response({"detail": "Serviço deletado com sucesso!"}, status=status.HTTP_204_NO_CONTENT)
 
     
-
-
-
-
-
-
 class CategoriaAPIView(APIView):
     # faz com que a view aceite as requisições dos arquivos
     parser_classes = [MultiPartParser, FormParser]
@@ -94,7 +88,45 @@ class CategoriaAPIView(APIView):
             }, status=status.HTTP_201_CREATED)
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+class AgendamentoAPIView(APIView):
+    # realizando agendamento
+    def post(self, request):
+        serializer = AgendamentoSerializer(data=request.data, context={"request": request})
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"detail": "Serviço marcado com sucesso!", "agendamento": serializer.data}, status=status.HTTP_201_CREATED)
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+class AgendamentoDetailAPIView(APIView):
+    def get(self, request, id=None):
+        if id:
+            agendamento = get_object_or_404(Agendamento, id=id)
+            serializer = AgendamentoSerializer(agendamento)
+            return Response(serializer.data)
+        else:
+            agendamentos = Agendamento.objects.filter(cliente=request.user)
+            serializer = AgendamentoSerializer(agendamentos, many=True)
+            return Response(serializer.data)
+    
+    # Editando um serviço
+    def put(self, request, id=None):
+        agendamento = get_object_or_404(Agendamento, id=id)
+        serializer = AgendamentoSerializer(agendamento, data=request.data, partial=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"detail": "Agendamento atualizado com sucesso!", "agendamento": serializer.data})
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    # Cancelando o agendamento de um serviço
+    def delete(self, request, id=None):
+        agendamento = get_object_or_404(Agendamento, id=id)
+        agendamento.delete()
+        return Response({"detail": "Agendamento cancelado com sucesso!"}, status=status.HTTP_204_NO_CONTENT)
+
+
+
+
+
 
 # mostra as categorias de cada servico
 # Ela tem como argumento o request, o template = '', que permite que

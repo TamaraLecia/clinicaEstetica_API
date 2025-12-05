@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from servico.models import Servico, TipoServico
+from servico.models import Servico, TipoServico, Agendamento
 from profissional.models import Profissional
 from django.contrib.auth.models import User
 
@@ -72,3 +72,92 @@ class CategoriaSerializer(serializers.ModelSerializer):
     class Meta:
         model = TipoServico
         fields = "__all__"
+
+
+class AgendamentoSerializer(serializers.ModelSerializer):
+    servico_nome = serializers.CharField(write_only=True, required=True)
+    profissional_nome = serializers.CharField(write_only=True, required=True)
+
+    class Meta:
+        model = Agendamento
+        fields = [
+            "id",
+            "data",
+            "observacoes",
+            "servico_nome",
+            "profissional_nome",
+            "cliente",
+            "servico",
+            "profissional"
+        ]
+        read_only_fields = ["cliente", "servico", "profissional"]
+
+    def validate(self, data):
+        profissional = data.get("profissional")
+        data_agendamento = data.get("data")
+
+        if profissional and data_agendamento:
+            conflito = Agendamento.objects.filter(
+                profissional=profissional,
+                data=data_agendamento
+            ).exists()
+            if conflito:
+                raise serializers.ValidationError(
+                    {"detail": "Este profissional já possui um agendamento neste horário"}
+                )
+        return data
+
+    def create(self, validated_data):
+        request = self.context.get("request")
+        if not request or not request.user.is_authenticated:
+            raise serializers.ValidationError({"detail": "Usuário não autenticado"})
+
+        validated_data["cliente"] = request.user  
+
+        servico_nome = validated_data.pop("servico_nome", None)
+        profissional_nome = validated_data.pop("profissional_nome", None)
+
+        if servico_nome:
+            try:
+                servico = Servico.objects.get(servico=servico_nome)  # campo correto
+                validated_data["servico"] = servico
+            except Servico.DoesNotExist:
+                raise serializers.ValidationError({"servico_nome": "Serviço não encontrado"})
+
+        if profissional_nome:
+            try:
+                profissional = Profissional.objects.get(nome=profissional_nome)
+                validated_data["profissional"] = profissional
+            except Profissional.DoesNotExist:
+                raise serializers.ValidationError({"profissional_nome": "Profissional não encontrado"})
+
+        return Agendamento.objects.create(**validated_data)
+
+    def update(self, instance, validated_data):
+        instance.data = validated_data.get("data", instance.data)
+        instance.observacoes = validated_data.get("observacoes", instance.observacoes)
+
+        servico_nome = validated_data.pop("servico_nome", None)
+        profissional_nome = validated_data.pop("profissional_nome", None)
+
+        if servico_nome:
+            try:
+                instance.servico = Servico.objects.get(servico=servico_nome)  # campo correto
+            except Servico.DoesNotExist:
+                raise serializers.ValidationError({"servico_nome": "Serviço não encontrado"})
+
+        if profissional_nome:
+            try:
+                instance.profissional = Profissional.objects.get(nome=profissional_nome)
+            except Profissional.DoesNotExist:
+                raise serializers.ValidationError({"profissional_nome": "Profissional não encontrado"})
+
+        instance.save()
+        return instance
+
+    def to_representation(self, instance):
+        rep = super().to_representation(instance)
+        rep["servico"] = instance.servico.servico  # campo correto
+        rep["profissional"] = instance.profissional.nome
+        rep["cliente"] = instance.cliente.username
+        return rep

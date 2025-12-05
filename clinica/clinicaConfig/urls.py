@@ -42,7 +42,7 @@ urlpatterns = [
     path('api/tokenCustomizado', include('usuarioAutenticacao.urls')),
     path("clinicaEstetica/", include("clinicaEstetica.urls")),
     path('apiAdministrador/', include('administrador.urls'), name='administrador.urls'),
-    path("cliente/", include("cliente.urls")),
+    path("apiCliente/", include("cliente.urls")),
     path("apiProfissional/", include("profissional.urls")),
     path("servico/", include("servico.urls")),
     path("plano/", include("plano.urls")),
