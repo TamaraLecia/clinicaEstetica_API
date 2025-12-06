@@ -156,7 +156,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # cros origin
 # aceita requisições de todos os dominios
-CORS_ALLOWED_ORIGINS = True
+CORS_ALLOWED_ALL_ORIGINS = True
 
 # habilita o envio de cookies entre backend e frontend
 CORS_ALLOW_CREDENTIALS = True
