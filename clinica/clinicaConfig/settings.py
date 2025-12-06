@@ -29,7 +29,14 @@ SECRET_KEY = 'django-insecure-r-)7z)mrp%!86qwjv9o_yvl1(_dkv#575xtc)6t+yvq$cv7u9r
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+# ALLOWED_HOSTS = [
+#     "127.0.0.1",
+#     "localhost",
+#     "10.0.0.114"
+# ]
+
+ALLOWED_HOSTS = ["*"]
+
 
 
 # Application definition
@@ -156,7 +163,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # cros origin
 # aceita requisições de todos os dominios
+# CORS_ALLOWED_ORIGINS = [
+#     "http://127.0.0.1:8000",
+#     "http://10.0.0.114:8000",
+# ]
+
 CORS_ALLOW_ALL_ORIGINS = True
+CORS_ALLOW_CREDENTIALS = True
 
 # habilita o envio de cookies entre backend e frontend
 CORS_ALLOW_CREDENTIALS = True
