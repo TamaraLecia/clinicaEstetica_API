@@ -7,6 +7,7 @@ from rest_framework.views import APIView
 from .serializer import PlanoSerializer
 from rest_framework.response import Response
 from rest_framework import status
+from rest_framework.permissions import AllowAny
 # , permissions
 
 # importações do oauth2 - oauth-toolkit
@@ -17,6 +18,10 @@ from rest_framework import status
 class PlanoAPIView(APIView):
      # forma de realizar a authenticação com oauth-toolkit
     # permissions_classes = [permissions.IsAuthenticated, TokenHasReadWriteScope]
+    # permite o acesso sem login
+    permission_classes = [AllowAny]
+    # permite usuários não autenticado
+    authenticatication_classes = []
 
     def get(self, request):
         planos = Plano.objects.all()
