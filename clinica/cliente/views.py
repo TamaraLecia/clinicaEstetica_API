@@ -58,7 +58,7 @@ class ClienteDetailAPIView(APIView):
     # authenticatication_classes = []
     
     def get(self, request, username):
-        cliente = get_object_or_404(Cliente.objects.all(), username=username)
+        cliente = get_object_or_404(Cliente.objects.all(), user__username=username)
         serializer = ClienteSerializer(cliente)
         return Response(serializer.data)
     
