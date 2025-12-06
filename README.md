@@ -1,3 +1,10 @@
+*Integrantes do grupo:* 
+
+Lecia Tamara Ferreira dos Santos Ribeiro \- 2021GBI02GT0021  
+Leomira de Oliveira Couto \- 2022GBI02GT0011  
+Tamara Lécia Ferreira dos Santos Ribeiro \- 20211GBI02GT0027
+
+
 ✅ Instruções de Uso do Sistema
 
 Clone o projeto do GitHub, utilizando o link abaxo: https://github.com/TamaraLecia/clinicaEstetica_API.git
@@ -91,5 +98,8 @@ Após o cadastro, realize o login com o username(nome de usuário) e senha cadas
 
 ✅ Url da documentação do swagger: http://127.0.0.1:8000/swagger/
 ✅ Url da documentação do redoc: http://127.0.0.1:8000/redoc/
+
+✅ Link da documentação da api no docs: https://docs.google.com/document/d/1XbAj1UJX3cTPF6rnIoI4_uAOJHT0BRvpnAtTXXS_L5A/edit?usp=sharing
+
 
 
