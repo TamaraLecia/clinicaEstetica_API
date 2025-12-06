@@ -86,3 +86,10 @@ Após isso, coloque o servidor do django para rodar com o comando python3 manage
 Quando o aplicativo abrir realize o cadastro de um cliente
 Após o cadastro, realize o login com o username(nome de usuário) e senha cadastrada.
 
+✅ A api desenvolvida possui a documentação swagger e a redoc do app drf_yasg, utilizado para documentar a api.
+	Para ter acesso a essas duas documentação da API é preciso rodar o servidor django com o comando python3 manage.py runserver e acessar o navegador e passar a url da documentação
+
+✅ Url da documentação do swagger: http://127.0.0.1:8000/swagger/
+✅ Url da documentação do redoc: http://127.0.0.1:8000/redoc/
+
+
