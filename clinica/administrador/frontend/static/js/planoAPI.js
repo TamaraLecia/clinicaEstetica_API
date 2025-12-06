@@ -1,6 +1,7 @@
 // Endereço base para listar e criar planos (GET e POST)
-const API_PLANOS = "http://127.0.0.1:8000/plano/";
-
+const API_PLANOS = "http://127.0.0.1:8000/plano/api/planos/";
+// consumindo a API de serviço
+const API_TIPOSERVICO = "http://127.0.0.1:8000/servico/";
 // Endereço para atualizar plano específico (PUT/PATCH)
 const API_UPDATE_PLANO = "http://127.0.0.1:8000/plano/update/";
 
@@ -15,6 +16,7 @@ const token = sessionStorage.getItem("acessToken");
 // Envia requisição GET para o Django buscar todos os planos cadastrados
 axios.get(API_PLANOS, {
     headers: {
+        "Content-Type": "application/json",
         Authorization: `Bearer ${token}` // Envia o token no cabeçalho
     }
 })
@@ -49,34 +51,63 @@ axios.get(API_PLANOS, {
 
 // CRIAR PLANO (POST)
 
+
 // Formulário de criação de plano no HTML
-const formAddPlano = document.getElementById("formCriarPlano");
-
-if (formAddPlano) {
-    formAddPlano.addEventListener("submit", async (e) => {
-
-        e.preventDefault();  // Evita que a página recarregue ao enviar o form
-
-        // Colhe os dados digitados no formulário
-        const formData = new FormData(e.target);
-
-        try {
-            // Envia os dados para o Django
-            const response = await axios.post(API_PLANOS, formData, {
-                headers: {
-                    Authorization: `Bearer ${token}`
-                }
-            });
-
-            alert("Plano criado com sucesso!");
-            console.log(response.data);
-
-        } catch (err) {
-            console.error("Erro ao criar plano:", err.response?.data || err);
-            alert("Erro ao criar plano");
-        }
-    });
+const formAddPlano = document.getElementById("planoFormulario");
+if(formAddPlano){
+    carregarServico();
 }
+
+formAddPlano.addEventListener("submit", async (e) => {
+
+    e.preventDefault();  // Evita que a página recarregue ao enviar o form
+
+    // Colhe os dados digitados no formulário
+    const formData = new FormData(e.target);
+
+    try {
+        // Envia os dados para o Django
+        const response = await axios.post(API_PLANOS, formData, {
+            headers: {
+                "Content-Type": "application/json",
+                Authorization: `Bearer ${token}`
+            }
+        });
+
+        alert("Plano criado com sucesso!");
+        console.log(response.data);
+
+    } catch (err) {
+        console.error("Erro ao criar plano:", err.response?.data || err);
+        alert("Erro ao criar plano");
+    }
+});
+
+
+const formAdicionarPlano =document.getElementById("planoFormulario");
+
+    // carrega as categorias registradas no banco de dados
+async function carregarServico(){
+    try{
+        const response = await axios.get(API_TIPOSERVICO, {
+            headers: {
+                Authorization: `Bearer ${token}`
+            }
+        });
+        const servicos = response.data;
+        const selectTipo = document.getElementById("servico_nome");
+
+        servicos.forEach(servico => {
+            const option = document.createElement("option");
+            option.value = servico.servico;
+            option.textContent = servico.servico;
+            selectTipo.appendChild(option);
+        });
+    } catch (err){
+        console.error("Erro ao carregar servico: ", err);
+    }
+    }
+
 
 // ATUALIZAR PLANO (PUT/PATCH)
 
