@@ -5,6 +5,7 @@ from django.contrib.auth.models import User
 
 class ServicoSerializer(serializers.ModelSerializer):
     # Campos extras que não exitem no modelo, mas que eu preciso para adicionar o serviço
+    # tipo__nome é categoria
     tipo_nome = serializers.CharField(write_only=True)
     profissional_nome = serializers.CharField(write_only=True)
 

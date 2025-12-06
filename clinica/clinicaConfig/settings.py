@@ -155,10 +155,8 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 # cros origin
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:5000",
-    "http://127.0.0.1:5500",
-]
+# aceita requisições de todos os dominios
+CORS_ALLOW_ALL_ORIGINS = True
 
 # habilita o envio de cookies entre backend e frontend
 CORS_ALLOW_CREDENTIALS = True
