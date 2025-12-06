@@ -5,6 +5,10 @@ Leomira de Oliveira Couto \- 2022GBI02GT0011
 Tamara Lécia Ferreira dos Santos Ribeiro \- 20211GBI02GT0027
 
 
+Link do vidéo do vídeo do sistema no youtube:
+https://youtu.be/TGYkEUSv_Dc?si=axRCNBrcAcl1amuJ
+
+
 ✅ Instruções de Uso do Sistema
 
 Clone o projeto do GitHub, utilizando o link abaxo: https://github.com/TamaraLecia/clinicaEstetica_API.git
