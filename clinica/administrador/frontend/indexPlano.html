@@ -78,12 +78,17 @@
                 </div>
             </div>
         </div>
+        
         <!-- {% include 'administrador/__navbarPlano.html' %} -->
         <div class="container-fluid bg-light">
+            
             <div class="container px-0">
+                <div class="position-absolute top-0 start-0 m-3">
+                    <a href="/clinica/administrador/frontend/indexADM.html" class="btn btn-light btn-sm ms-3">Voltar</a>
+                </div>
                 <nav class="navbar navbar-light navbar-expand-xl">
-                    <a href="indexADM.html" class="navbar-brand">
-        
+                    
+                    
                         <h1 class="text-primary display-4">Clínica de Estetíca</h1>
                     </a>
                     <button class="navbar-toggler py-2 px-3" type="button" data-bs-toggle="collapse"
@@ -92,12 +97,6 @@
                     </button>
                     <div class="collapse navbar-collapse bg-light py-3" id="navbarCollapse">
                         <div class="navbar-nav mx-auto border-top">
-                            <a href="{% url 'indexClinica' %}" class="nav-item nav-link active">Home</a>
-                            <a href="{% url 'mostrarSobre' %}" class="nav-item nav-link">About</a>
-                            <!-- <a href="service.html" class="nav-item nav-link">Services</a>
-                            <a href="price.html" class="nav-item nav-link">Price</a>
-                            <div class="d-flex align-items-center flex-nowrap pt-xl-0"> -->
-                            <!-- <button class="btn-search btn btn-primary btn-primary-outline-0 rounded-circle btn-lg-square" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fas fa-search"></i></button> -->
                             <a href="../../../clinica/plano/frontend/indexPlano.html"
                                 class="btn btn-primary btn-primary-outline-0 rounded-pill py-3 px-4 ms-4">Configurações de
                                 planos</a>

@@ -1,41 +1,57 @@
 <!-- {% extends 'indexForm.html' %}
-
 {% block content %} -->
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
     <title>Form de cadastro do Administrador</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body>
-    <a href="administrador/frontend/indexADM.html" class="btn btn-light btn-sm">Voltar</a>
-    <div class="d-flex justify-content-center align-items-center m-3 h-100">
-    
-        <form class="p-4 rounded shadow-sm w-50 h-100" style="background-color:#FBCBF2;" id="editAdminformulario">
-            
-            <label for="email">E-mail:</label>
-            <input type="email" name="email" id="email" required>
-            
-            <br>
-            <br>
-            
-            <label for="nome">Nome:</label>
-            <input type="text" name="nome" id="nome">
 
-            <br>
-            <br>
-    
-            <button type="submit" style="background-color: #DBB8E3">Salvar</button>
-        </form>
+<body style="background-color: #FBCBF2;">
+    <!-- Botão voltar alinhado à esquerda com espaçamento -->
+    <div class="mb-4">
+        <a href="administrador/frontend/indexADM.html" class="btn btn-light btn-sm ms-3">← Voltar</a>
+    </div>
+
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <!-- largura mais estreita -->
+            <div class="col-md-4">
+                <!-- Fundo rosa mais escuro + bordas arredondadas + sombra -->
+                <form id="editAdminformulario" class="p-4 rounded shadow border" style="background-color:#F8A9E0;">
+                    <h4 class="mb-4 text-center">Editar Administrador</h4>
+
+                    <div class="mb-3">
+                        <label for="email" class="form-label">E-mail</label>
+                        <input type="email" class="form-control" name="email" id="email" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="nome" class="form-label">Nome</label>
+                        <input type="text" class="form-control" name="nome" id="nome">
+                    </div>
+
+                    <!-- Botão salvar lilás escuro e menor alinhado à direita -->
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-sm"
+                            style="background-color:#8A6FA0; color:white; border:none; width:auto;">
+                            Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
+        </div>
     </div>
 
     <!-- axios é utilizado para realizar a comunicação do front com a API -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-    <!-- javaScript onde está as funções que realiza a comunicação com o a API -->
+    <!-- javaScript onde estão as funções que realizam a comunicação com a API -->
     <script type="module" src="/clinica/administrador/frontend/static/js/administrador.js"></script>
-
 </body>
+
 </html>
 <!-- {% endblock %} -->

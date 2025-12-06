@@ -1,36 +1,55 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adicionar categoria</title>
-    <!-- Link Bootstrap -->
+    <title>Adicionar Categoria</title>
+    <!-- Bootstrap CSS -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.8/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
-<body style="background-color: #f8f9fa;">
-    <div class="container my-4">
-        <a href="/clinica/servico/frontend/servico/indexServico.html" class="btn btn-light btn-sm">Voltar</a>
 
-        <div class="d-flex justify-content-center align-items-center">
-            <form id="formularioCategoria" enctype="multipart/form-data" class="p-4 rounded shadow-sm" style="background-color: #FBCBF2;" action="">
-                <!-- Campos do formulário -->
-                <div class="mb-3">
-                    <label for="categoria" class="form-label">Nome da categoria</label>
-                    <input type="text" class="form-control" id="categoria" name="categoria" required>
-                </div>
-                <div class="mb-3">
-                    <label for="imagem" class="form-label">Imagem</label>
-                    <input type="file" class="form-control" id="imagem" name="imagem" required>
-                </div>
+<body style="background-color: #FBCBF2;">
+    <!-- Botão voltar alinhado à esquerda com espaçamento -->
+    <div class="mb-4">
+        <a href="/clinica/servico/frontend/servico/indexServico.html" class="btn btn-light btn-sm ms-3">← Voltar</a>
+    </div>
 
-                <button type="submit" class="btn btn-primary">Salvar</button>
-            </form>
+    <div class="container py-5">
+        <div class="row justify-content-center">
+            <!-- largura mais estreita -->
+            <div class="col-md-5">
+                <!-- Fundo rosa mais escuro + bordas arredondadas + sombra -->
+                <form id="formularioCategoria" enctype="multipart/form-data" class="p-4 rounded shadow border"
+                    style="background-color:#F8A9E0;">
+                    <h4 class="mb-4 text-center">Adicionar Categoria</h4>
+
+                    <div class="mb-3">
+                        <label for="categoria" class="form-label">Nome da categoria</label>
+                        <input type="text" class="form-control" id="categoria" name="categoria" required>
+                    </div>
+
+                    <div class="mb-3">
+                        <label for="imagem" class="form-label">Imagem</label>
+                        <input type="file" class="form-control" id="imagem" name="imagem" required>
+                    </div>
+
+                    <!-- Botão salvar lilás escuro e menor alinhado à direita -->
+                    <div class="text-end">
+                        <button type="submit" class="btn btn-sm"
+                            style="background-color:#8A6FA0; color:white; border:none; width:auto;">
+                            Salvar
+                        </button>
+                    </div>
+                </form>
+            </div>
         </div>
     </div>
 
-     <!-- Script do axios, coloquei aqui embaixo para não atrasar o carregamento da página -->
+    <!-- axios é utilizado para realizar a comunicação do front com a API -->
     <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+    <!-- JavaScript da API -->
     <script src="/clinica/administrador/frontend/static/js/servicoAPI.js"></script>
-
 </body>
+
 </html>
