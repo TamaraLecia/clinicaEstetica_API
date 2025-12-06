@@ -79,7 +79,7 @@ REST_FRAMEWORK = {
 # Tempo de expiração do tokén
 SIMPLE_JWT = {
     # tempo de expiração do tokén de acesso
-    "ACCES_TOKEN_LIFETIME": timedelta(minutes=30),
+    "ACCES_TOKEN_LIFETIME": timedelta(minutes=60),
     # tempo de expiração do tokén de refresh
     "REFRESH_TOKEN_LIFETIME": timedelta(days=7),
     # torna inválido o refresh antigo
