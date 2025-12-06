@@ -3,7 +3,7 @@ from .import views
 from .views import ServicoAPIView, CategoriaAPIView, AlterarServicoAPIView, AgendamentoAPIView, AgendamentoDetailAPIView
 
 urlpatterns = [
-    path("", ServicoAPIView.as_view(), name="indexServicoAPI"),
+    path("servicoView/", ServicoAPIView.as_view(), name="indexServicoAPI"),
     path("categoriaApi/", CategoriaAPIView.as_view(), name="categoriaApi"),
     path("alterarServico/<int:id>/", AlterarServicoAPIView.as_view(), name="alterarservicoApi"),
     path("agendarServico/", AgendamentoAPIView.as_view(), name="agendarServico"),

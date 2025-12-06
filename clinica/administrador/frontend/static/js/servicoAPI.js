@@ -1,5 +1,5 @@
 // consumindo a API de serviço
-const API_URLl = "http://127.0.0.1:8000/servico/"; //LINK DA API
+const API_URLl = "http://127.0.0.1:8000/servico/servicoView/"; //LINK DA API
 // consumindo a API de categoria do serviço
 const API_TIPOCATEGORIA = "http://127.0.0.1:8000/servico/categoriaApi/";
 // consumindo a API de profissional
