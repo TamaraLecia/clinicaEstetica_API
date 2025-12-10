@@ -1,3 +1,14 @@
+*Integrantes do grupo:* 
+
+Lecia Tamara Ferreira dos Santos Ribeiro \- 2021GBI02GT0021  
+Leomira de Oliveira Couto \- 2022GBI02GT0011  
+Tamara Lécia Ferreira dos Santos Ribeiro \- 20211GBI02GT0027
+
+
+Link do vidéo do vídeo do sistema no youtube:
+https://youtu.be/TGYkEUSv_Dc?si=axRCNBrcAcl1amuJ
+
+
 ✅ Instruções de Uso do Sistema
 
 Clone o projeto do GitHub, utilizando o link abaxo: https://github.com/TamaraLecia/clinicaEstetica_API.git
@@ -85,4 +96,16 @@ Acessar o arquivo api_config.dart na pasta app/api_config/, este arquivo serve p
 Após isso, coloque o servidor do django para rodar com o comando python3 manage.py runserver, e depois rode o projeto flutter com o comando flutter run
 Quando o aplicativo abrir realize o cadastro de um cliente
 Após o cadastro, realize o login com o username(nome de usuário) e senha cadastrada.
+
+✅ A api desenvolvida possui a documentação swagger e a redoc do app drf_yasg, utilizado para documentar a api.
+	Para ter acesso a essas duas documentação da API é preciso rodar o servidor django com o comando python3 manage.py runserver e acessar o navegador e passar a url da documentação
+
+As urls da doucmentação está no arquivo urls.py do app clinicaConfig.py
+
+✅ Url da documentação do swagger: http://127.0.0.1:8000/swagger/
+✅ Url da documentação do redoc: http://127.0.0.1:8000/redoc/
+
+✅ Link da documentação da api no docs: https://docs.google.com/document/d/1XbAj1UJX3cTPF6rnIoI4_uAOJHT0BRvpnAtTXXS_L5A/edit?usp=sharing
+
+
 
