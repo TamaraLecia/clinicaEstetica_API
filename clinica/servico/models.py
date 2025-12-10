@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
 from profissional.models import Profissional
+from cliente.models import Cliente
 
 class TipoServico(models.Model):
     categoria = models.TextField(max_length=100)
@@ -23,20 +24,16 @@ class Servico(models.Model):
     
 
 class Agendamento(models.Model):
-    cliente = models.ForeignKey(User, on_delete=models.CASCADE, related_name="agendamentos")
+    cliente = models.ForeignKey(Cliente, on_delete=models.CASCADE, related_name="agendamentos")
     servico = models.ForeignKey(Servico, on_delete=models.CASCADE)
     profissional = models.ForeignKey(Profissional, on_delete=models.CASCADE)
     data = models.DateTimeField()
-    observacoes = models.TextField(blank=True, null=True)
 
-    statusServico = models.CharField(
-        max_length=20,
-        choices=[("pendente", "Pendente"), ("confirmado", "Confirmado"), ("cancelado", "Cancelado")],
-        default="pendente"
-    )
+    formaPagamento_escolha = [('dinheiro', 'Dinheiro'), ('pix', 'Pix'), ('cartao', 'Cartão'),]
+    forma_pagamento = models.CharField(max_length=20, choices=formaPagamento_escolha, default='dinheiro')
 
     def __str__(self):
-        return f"{self.cliente} - {self.servico} ({self.data})"
+        return f"{self.cliente.nome} - {self.servico.servico} ({self.forma_pagamento})"
 
 
 
