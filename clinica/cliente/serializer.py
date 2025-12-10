@@ -27,21 +27,29 @@ class ClienteSerializer(serializers.ModelSerializer):
         )
         return cliente
     
-    def update(self, instance, validated_data):
-        user_data = validated_data.pop('user', None)
-        if user_data:
-            instance.user.username = user_data.get('username', instance.user.username)
-            instance.user.email=user_data.get('email', instance.user.email)
+# Atualizar dados serializer
+class AlterarDadosClienteSerializer(serializers.ModelSerializer):
+    email = serializers.EmailField(source='user.email') # pega o email do usuário logado
 
-            instance.user.save()
-        
-        instance.nome=validated_data.get('nome', instance.nome)
-        instance.cpf=validated_data.get('cpf', instance.cpf)
-        instance.endereco=validated_data.get('endereco', instance.endereco)
-        instance.telefone=validated_data.get('telefone', instance.telefone)
-        
-        instance.save()
-        return instance
+    class Meta:
+        model = Cliente
+        fields = ['nome', 'email']
+
+        def update(self, instance, validated_data):
+            # Atualizando o nome do cliente
+            instance.nome = validated_data.get('nome', instance.nome)
+
+            # Atualizando o email do cliente
+            user_data = validated_data.get('user', {})
+            if 'email' in user_data:
+                # valida duplicidade de email
+                if User.objects.filter(email=user_data['email']).exclude(pk=instance.user.pk).exists():
+                    raise serializers.ValidationError({"email": "Este email já está em uso."})
+                instance.user.email = user_data['email']
+                instance.user.save()
+            
+            instance.save()
+            return instance
 
 
 # foi utilizado o serializers.Serializer por que não estou alterando ou criando um modelo diretamente

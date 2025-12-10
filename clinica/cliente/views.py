@@ -15,7 +15,7 @@ from django.contrib.auth.models import Group
 from django.urls import reverse
 
 from rest_framework.views import APIView
-from .serializer import ClienteSerializer, AlterarSenhaSerializer
+from .serializer import ClienteSerializer, AlterarSenhaSerializer, AlterarDadosClienteSerializer
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework.permissions import AllowAny
@@ -64,8 +64,13 @@ class ClienteDetailAPIView(APIView):
     
     #Update
     def put(self, request, username):
-        cliente = get_object_or_404(Cliente.objects.all(), user__username=username)
-        serializer = ClienteSerializer(cliente, data=request.data, partial=True)
+        try:
+            # Busca o cliente pelo o username do User
+            cliente = Cliente.objects.get(user__username=username)
+        except Cliente.DoesNotExist:
+            return Response({"erro": "Cliente não encontrado"}, status=status.HTTP_404_NOT_FOUND)
+        
+        serializer = AlterarDadosClienteSerializer(cliente, data=request.data, partial=True)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)

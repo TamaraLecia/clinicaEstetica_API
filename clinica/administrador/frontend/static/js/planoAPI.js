@@ -1,7 +1,7 @@
 // Endereço base para listar e criar planos (GET e POST)
 const API_PLANOS = "http://127.0.0.1:8000/plano/api/planos/";
 // consumindo a API de serviço
-const API_TIPOSERVICO = "http://127.0.0.1:8000/servico/";
+const API_TIPOSERVICO = "http://127.0.0.1:8000/servico/servicoView/";
 // Endereço para atualizar plano específico (PUT/PATCH)
 const API_UPDATE_PLANO = "http://127.0.0.1:8000/plano/update/";
 
@@ -95,11 +95,11 @@ async function carregarServico(){
             }
         });
         const servicos = response.data;
-        const selectTipo = document.getElementById("servico_nome");
+        const selectTipo = document.getElementById("servico_id");
 
         servicos.forEach(servico => {
             const option = document.createElement("option");
-            option.value = servico.servico;
+            option.value = servico.id;
             option.textContent = servico.servico;
             selectTipo.appendChild(option);
         });
