@@ -31,8 +31,8 @@ SQLite (padrão)
 ✅ Acesso da API pelo Navegador
 
 Para acessar o frontend da API no navegador tem que abrir o arquivo index.html na pasta frontend que está dentro da pasta clínica técnica, antes de executar o index.html com o liver server é necessário rodar o terminal do django com o comando python3 manage.py runserver.
-Agora com o servidor do django ligado é possível acessar os recursos da API
-Caso não tenha um administrador pode criá-lo clicando no botão criar conta e respondendo o formulário.
+Agora com o servidor do django ligado é possível acessar os recursos da API,
+caso não tenha um administrador pode criá-lo clicando no botão criar conta e respondendo o formulário.
 Após criar o administrador, o usuário tem acesso às funcionalidades da API, de serviço, profissionais, planos e a as funcionalidades da própria API de questionário.
 Após o primeiro administrador criado os demais são criados a partir dele
 
